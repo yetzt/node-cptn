@@ -1,0 +1,18 @@
+{
+  "name": "cptn",
+  "version": "0.1.0",
+  "description": "A webserver that does something with POSTed JSON. Indended for use with GitLab webhooks.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webhooks",
+    "gitlab",
+    "server",
+    "post",
+    "json"
+  ],
+  "author": "Philipp Bock <p@philippbock.de>",
+  "license": "MIT"
+}
