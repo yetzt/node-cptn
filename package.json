@@ -13,6 +13,11 @@
     "post",
     "json"
   ],
-  "author": "Philipp Bock <p@philippbock.de>",
+  "author": {
+    "name": "Philipp Bock",
+    "email": "p@philippbock.de",
+    "url": "http://philippbock.de"
+  },
+  "repository": "pbock/cptn",
   "license": "MIT"
 }

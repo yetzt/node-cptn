@@ -52,3 +52,9 @@ Accepts the following arguments:
 ## Server Behaviour
 
 The server currently responds with a status code and an empty body. It returns 200 (OK) when a hook was found and successfully invoked, 404 (Not Found) when no hook was found, 405 (Method Not Allowed) when the request was not a POST request, 400 (Bad Request) when the body is not valid JSON, and 500 (Internal Server Error) when there was a problem invoking the hook.
+
+## To Do
+
+- Write tests
+- Add support for basic middleware if needed (but keep it simple)
+- Allow regular expressions as URLs if needed
