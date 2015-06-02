@@ -15,6 +15,7 @@ function prepareExec (command, options) {
 
 module.exports = function (port, config) {
 	if (!config) config = {};
+	var debug = config.debug;
 	var hooks = [];
 
 	function registerHook (/* name[, options], action */) {
@@ -30,6 +31,7 @@ module.exports = function (port, config) {
 
 	var server = http.createServer(function (req, res) {
 		if (req.method !== 'POST') {
+			if (debug) console.warn('Rejected non-POST request. Method was %s.', req.method);
 			res.statusCode = 405;
 			res.end();
 			return;
@@ -40,10 +42,12 @@ module.exports = function (port, config) {
 			if (url === hook.name) break;
 		}
 		if (!hook) {
+			if (debug) console.log('No hook found for "%s".', url);
 			res.statusCode = 404;
 			res.end();
 			return;
 		}
+		if (debug) console.log('Calling "%s".', url);
 
 		var data = '';
 		req.on('data', function (chunk) {
@@ -55,11 +59,13 @@ module.exports = function (port, config) {
 			} catch (e) {
 				res.statusCode = 400;
 				res.end();
-				if (config.debug) console.error(e.message, e.stack);
+				if (debug) console.error(e.message, e.stack);
 			}
 
+			if (debug) console.log('With data: %s', JSON.stringify(data));
+
 			try {
-				hook.action(data, function (err) { if (err && config.debug) console.error(err); });
+				hook.action(data, function (err) { if (err && debug) console.error(err); });
 			} catch (e) {
 				res.statusCode = 500;
 				res.end();
@@ -71,14 +77,14 @@ module.exports = function (port, config) {
 		res.end();
 	});
 	server.listen(port, function () {
-		if (config.debug) console.log('Listening on %s', port);
+		if (debug) console.log('Listening on %s', port);
 	});
 
 	// port is a UNIX socket file
 	if (isNaN(parseInt(port))) {
 		server.on('listening', function() {
 			// set permissions
-			if (config.debug) console.log('Changing socket permissions');
+			if (debug) console.log('Changing socket permissions');
 			return fs.chmod(port, '0777');
 		});
 
@@ -86,7 +92,7 @@ module.exports = function (port, config) {
 		server.on('error', function(e) {
 			if (e.code !== 'EADDRINUSE') throw e;
 			// not in use: delete it and re-listen
-			if (config.debug) console.log('Unlinking socket');
+			if (debug) console.log('Unlinking socket');
 			fs.unlinkSync(port);
 			server.listen(port);
 		});
