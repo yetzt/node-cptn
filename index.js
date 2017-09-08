@@ -35,11 +35,10 @@ module.exports = function (port, config) {
 			return;
 		}
 		var url = req.url.substr(1);
-		var hook;
-		for (var i=0; hook=hooks[i]; i++) { // jshint ignore:line
-			if (url === hook.name) break;
-		}
-		if (!hook) {
+		var matchingHooks = hooks.filter(function (hook) {
+			return hook.name === url;
+		})
+		if (!matchingHooks.length) {
 			res.statusCode = 404;
 			res.end();
 			return;
@@ -59,7 +58,9 @@ module.exports = function (port, config) {
 			}
 
 			try {
-				hook.action(data, function (err) { if (err && config.debug) console.error(err); });
+				matchingHooks.forEach(function (hook) {
+					hook.action(data, function (err) { if (err && config.debug) console.error(err); });
+				})
 			} catch (e) {
 				res.statusCode = 500;
 				res.end();
