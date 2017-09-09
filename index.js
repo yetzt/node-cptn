@@ -34,11 +34,13 @@ module.exports = function (port, config) {
 			res.end();
 			return;
 		}
+		console.log('HOOK %s', req.url.substr(1));
 		var url = req.url.substr(1);
 		var matchingHooks = hooks.filter(function (hook) {
 			return hook.name === url;
 		})
 		if (!matchingHooks.length) {
+			console.log('- No matching hooks found');
 			res.statusCode = 404;
 			res.end();
 			return;
@@ -52,12 +54,11 @@ module.exports = function (port, config) {
 			try {
 				data = JSON.parse(data);
 			} catch (e) {
-				res.statusCode = 400;
-				res.end();
-				if (config.debug) console.error(e.message, e.stack);
+				data = null;
 			}
 
 			try {
+				console.log('- Invoking ' + (matchingHooks.length > 1 ? matchingHooks.length + ' matching actions' : 'matching action'));
 				matchingHooks.forEach(function (hook) {
 					hook.action(data, function (err) { if (err && config.debug) console.error(err); });
 				})
