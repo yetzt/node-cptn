@@ -1,6 +1,6 @@
 {
   "name": "cptn",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A webserver that does something with POSTed JSON. Indended for use with GitLab webhooks.",
   "main": "index.js",
   "scripts": {
@@ -18,6 +18,7 @@
     "email": "p@philippbock.de",
     "url": "http://philippbock.de"
   },
+  "contributors": ["Sebastian Vollnhals <node@yetzt.me>"],
   "repository": "pbock/cptn",
   "license": "MIT"
 }
