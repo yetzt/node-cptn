@@ -81,7 +81,7 @@ module.exports = function (port, config) {
 		server.on('listening', function() {
 			// set permissions
 			if (config.debug) console.log('Changing socket permissions');
-			return fs.chmod(port, '0777');
+			return fs.chmod(port, 0o777);
 		});
 
 		// double-check EADDRINUSE
