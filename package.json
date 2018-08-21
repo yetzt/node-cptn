@@ -3,9 +3,6 @@
   "version": "0.2.2",
   "description": "A webserver that does something with POSTed JSON. Indended for use with GitLab webhooks.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "webhooks",
     "gitlab",
@@ -19,6 +16,6 @@
     "url": "http://philippbock.de"
   },
   "contributors": ["Sebastian Vollnhals <node@yetzt.me>"],
-  "repository": "pbock/cptn",
+  "repository": "yetzt/node-cptn",
   "license": "MIT"
 }
